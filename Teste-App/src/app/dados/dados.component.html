@@ -1,0 +1,155 @@
+<div class="container" style='margin-top: 50px'>
+<div class="d-flex">
+  <div class="form-inline mr-auto">
+    <div class="form-group mb-2">
+      <label class="mr-2">Filtro:</label> <input type="text"
+      class="form-control mr-2"
+      placeholder="buscar"
+      [(ngModel)]="filtroLista">
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-outline-primary" (click)="novoDado(dadosModal)">
+      <i class="fa fa-plus-circle"></i>&nbsp;
+      Novo dados</button>
+    </div>
+  </div>
+
+<table class="table table-striped">
+  <thead class="thead-light">
+    <tr>
+      <td>#</td>
+    <td>Nome</td>
+    <td>CPF</td>
+    <td>RG</td>
+    <td>Telefone1</td>
+    <td>Telefone2</td>
+    </tr>
+  </thead>
+  <tbody *ngIf="dados && dados.length">
+  <tr *ngFor="let dado of dadosFiltrados">
+    <td>{{dado.id}}</td>
+    <td>{{dado.nome}}</td>
+    <td>{{dado.cpf}}</td>
+    <td>{{dado.rg }}</td>
+    <td>{{dado.telefone1}}</td>
+    <td>{{dado.telefone2}}</td>
+    <td>
+      <div class="btn-group">
+        <button class="btn btn-sm btn-success"
+        tooltip="Editar" (click)="editarEvento(dado, dadosModal)">
+          <i class="fas fa-edit"></i>
+        </button>
+      </div>
+    </td>
+  </tr>
+</tbody>
+<tfoot *ngIf="!dados.length">
+  <tr>
+    <td colspan="7" class="text-center">
+      <h4>
+        Nenhum dados encontrado!
+      </h4>
+    </td>
+  </tr>
+</tfoot>
+</table>
+
+<div bsModal #dadosModal="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Large modal</h4>
+        <button type="button" class="close pull-right" (click)="dadosModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerForm">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Nome</label>
+              <input type="text" [ngClass]="{'is-invalid': registerForm.get('nome').errors
+              && registerForm.get('nome').touched }" class="form-control" formControlName="nome">
+              <div *ngIf="registerForm.get('nome').hasError('required') && registerForm.get('nome').touched" class="invalid-feedback">
+                O nome é obrigatório.
+              </div>
+              <div *ngIf="registerForm.get('nome').hasError('minlength') && registerForm.get('nome').touched" class="invalid-feedback">
+                O nome deve ter mais de 4 caracteres.
+              </div>
+              <div *ngIf="registerForm.get('nome').hasError('maxlength') && registerForm.get('nome').touched" class="invalid-feedback">
+                O nome deve ter menos de 50 caracteres.
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>CPF</label>
+              <input type="text" [ngClass]="{'is-invalid': registerForm.get('cpf').errors && registerForm.get('cpf').touched}" class="form-control is-invalid" formControlName="cpf">
+              <div *ngIf="registerForm.get('cpf').touched && registerForm.get('cpf').hasError('required')" class="invalid-feedback">
+                O cpf é obrigatório.
+              </div>
+              <div *ngIf="registerForm.get('cpf').touched && registerForm.get('cpf').hasError('minlength')" class="invalid-feedback">
+                O cpf deve ter mais de 11 caracteres.
+              </div>
+              <div *ngIf="registerForm.get('cpf').touched && registerForm.get('cpf').hasError('maxlength')" class="invalid-feedback">
+                O cpf deve ter menos de 14 caracteres.
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>RG</label>
+              <input type="text" [ngClass]="{'is-invalid': registerForm.get('rg').touched && registerForm.get('rg').errors}" class="form-control" formControlName="rg">
+              <div *ngIf="registerForm.get('rg').touched && registerForm.get('rg').hasError('required')" class="invalid-feedback">
+                O rg é obrigatório.
+              </div>
+              <div *ngIf="registerForm.get('rg').touched && registerForm.get('rg').hasError('minlength')" class="invalid-feedback">
+                O rg deve ter mais de 8 caracteres.
+              </div>
+              <div *ngIf="registerForm.get('rg').touched && registerForm.get('rg').hasError('maxlength')" class="invalid-feedback">
+                O rg deve ter menos de 10 caracteres.
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Telefone 1</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('telefone1').touched && registerForm.get('telefone1').errors}" formControlName="telefone1">
+              <div *ngIf="registerForm.get('telefone1').touched && registerForm.get('telefone1').hasError('required')" class="invalid-feedback">
+                O Telefone 1 é obrigatório.
+              </div>
+              <div *ngIf="registerForm.get('telefone1').touched && registerForm.get('telefone1').hasError('minlength')" class="invalid-feedback">
+                O Telefone 1 deve ter mais de 11 caracteres.
+              </div>
+              <div *ngIf="registerForm.get('telefone1').touched && registerForm.get('telefone1').hasError('maxlength')" class="invalid-feedback">
+                O Telefone 1 deve ter menos de 14 caracteres.
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Telefone 2</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('telefone2').touched && registerForm.get('telefone2').errors}" formControlName="telefone2">
+              <div *ngIf="registerForm.get('telefone2').touched && registerForm.get('telefone2').hasError('required')" class="invalid-feedback">
+                O telefone2 é obrigatório.
+              </div>
+              <div *ngIf="registerForm.get('telefone2').touched && registerForm.get('telefone2').hasError('minlength')" class="invalid-feedback">
+                O telefone2 deve ter mais de 11 caracteres.
+              </div>
+              <div *ngIf="registerForm.get('telefone2').touched && registerForm.get('telefone2').hasError('maxlength')" class="invalid-feedback">
+                O telefone2 deve ter menos de 14 caracteres.
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer d-flex">
+        <button class="btn btn-secondary" (click)="dadosModal.hide()">
+          Fechar
+        </button>
+        <button class="btn btn-primary" (click)="salvarAlteracao(dadosModal)" [disabled]="!registerForm.valid">
+          Salvar Alterações
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
